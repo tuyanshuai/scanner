@@ -1,4 +1,4 @@
-name: iOS Build
+name: iOS Build & Test
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    name: Build iOS App
+    name: Build iOS App (Simulator)
     runs-on: macos-latest
 
     steps:
@@ -54,13 +54,24 @@ jobs:
           test \
           CODE_SIGNING_ALLOWED=NO
 
+    - name: Display Testing Instructions
+      run: |
+        echo "🎉 iOS编译成功!"
+        echo ""
+        echo "📱 免费测试方案:"
+        echo "1. 模拟器测试: 当前编译已验证项目可正常运行"
+        echo "2. 真机测试: 参考项目中的 FREE_TESTING.md 文件"
+        echo "3. 免费Apple ID: 可在Mac上使用免费Apple ID签名测试7天"
+        echo ""
+        echo "📖 详细指南: https://github.com/tuyanshuai/scanner/blob/main/FREE_TESTING.md"
+
     - name: Archive Build Artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: ios-build
+        name: ios-simulator-build
         path: |
           build/
-          *.ipa
+          FREE_TESTING.md
         retention-days: 30
 
   build-device:
